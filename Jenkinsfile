@@ -43,7 +43,7 @@ pipeline {
                 nexusPublisher nexusInstanceId: 'Nexus',
                 nexusRepositoryId: 'releases',
                 packages: [[$class: 'MavenPackage',
-                mavenAssetList: [[classifier: '', extension: '', filePath: 'target/conference-app.war']], mavenCoordinate: [artifactId: 'conference-application', groupId: 'de.codecentric', packaging: 'war', version: NEXUS_ARTIFACT_VERSION]]]
+                mavenAssetList: [[classifier: '', extension: '', filePath: 'target/conference-app-$(NEXUS_ARTIFACT_VERSION).war']], mavenCoordinate: [artifactId: 'conference-application', groupId: 'de.codecentric', packaging: 'war', version: NEXUS_ARTIFACT_VERSION]]]
             }
         }
         stage('Build image') {
@@ -59,11 +59,11 @@ pipeline {
                     steps {
                         sh 'docker ps -q --filter ancestor="conference-app-uat" | xargs -r docker stop'
                         sh 'docker container prune'
-                        sh 'docker run -d --name conference-app--uat -p 8290:8080 conference-app-project:latest'
+                        sh 'docker run -d --name conference-app-uat -p 8290:8080 conference-app-project:latest'
 
                     }
                 }
-                
+
             }
         }
 
