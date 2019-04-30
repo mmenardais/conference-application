@@ -58,7 +58,7 @@ pipeline {
                 stage('UAT') {
                     steps {
                         sh 'docker ps -q --filter ancestor="conference-app-uat" | xargs -r docker stop'
-                        sh 'docker container prune'
+                        sh 'docker container prune -f'
                         sh 'docker run -d --name conference-app-uat -p 8290:8080 conference-app-project:latest'
 
                     }
